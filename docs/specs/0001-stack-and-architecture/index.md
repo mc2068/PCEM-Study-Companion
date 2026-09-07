@@ -1,7 +1,7 @@
 # 0001. Adopt a free tier integrated web stack
 
 **Date**: 2026-09-07
-**Status**: In Progress
+**Status**: Accepted
 
 ## Summary
 
@@ -24,33 +24,35 @@ The product is a single Next.js 16 monolith (one codebase for interface and serv
 
 ## Proposed stack
 
-| Layer | Choice | Reason |
-|---|---|---|
-| Language | TypeScript (engineer accepted recommendation) | The AI pipeline lives on structured JSON (flashcards, quizzes); types catch shape errors at build time |
-| Framework | Next.js 16, App Router | One codebase for UI and API (monolith), verified current today, first class AI SDK support |
-| Primary DB | Supabase Postgres, free tier (engineer accepted recommendation) | Relational per expert default; 500 MB is years of our structured data; single vendor also supplies file storage |
-| ORM | Drizzle | TypeScript first, near SQL for complex queries, fast cold starts on serverless |
-| Auth | Clerk (engineer's pick) | Proven auth service, never build from scratch; free tier covers our scale for years |
-| LLM | Gemini 3.8 Flash, Google AI Studio free tier (engineer accepted recommendation) | Only major provider with a real free API tier, and native PDF understanding, verified current today |
-| PDF understanding | Native model input | The model sees tables and figures directly, which matters for image heavy anatomy lectures; no extraction dependency |
-| AI orchestration | Vercel AI SDK v7 | generateObject with Zod gives typed, validated study set JSON; provider swap is a one line change |
-| Background jobs | DB backed queue + QStash free tier (engineer accepted recommendation) | Serverless functions cannot run for minutes; a short worker driven by QStash processes lectures with retries |
-| File storage | Supabase Storage, 1 GB | Object storage per expert default; bundled with the database vendor |
-| Hosting | Vercel Hobby (engineer accepted recommendation) | Zero config deploys from GitHub, preview URL per change |
-| Analytics + errors | PostHog (engineer's pick) | One free vendor covers product analytics, error tracking and session replay |
-| Email | None in v1 (engineer accepted recommendation) | Clerk sends verification email itself; reminders are deferred in the scope |
-| Package manager, repo | pnpm; GitHub private repo (engineer accepted recommendation) | Fast installs; deploys flow from the repo; the repo carries the workflow state files |
-| Runtime | Node 22 | Required by AI SDK v7; pinned at scaffold |
+| Layer                 | Choice                                                                          | Reason                                                                                                               |
+| --------------------- | ------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
+| Language              | TypeScript (engineer accepted recommendation)                                   | The AI pipeline lives on structured JSON (flashcards, quizzes); types catch shape errors at build time               |
+| Framework             | Next.js 16, App Router                                                          | One codebase for UI and API (monolith), verified current today, first class AI SDK support                           |
+| Primary DB            | Supabase Postgres, free tier (engineer accepted recommendation)                 | Relational per expert default; 500 MB is years of our structured data; single vendor also supplies file storage      |
+| ORM                   | Drizzle                                                                         | TypeScript first, near SQL for complex queries, fast cold starts on serverless                                       |
+| Auth                  | Clerk (engineer's pick)                                                         | Proven auth service, never build from scratch; free tier covers our scale for years                                  |
+| LLM                   | Gemini 3.8 Flash, Google AI Studio free tier (engineer accepted recommendation) | Only major provider with a real free API tier, and native PDF understanding, verified current today                  |
+| PDF understanding     | Native model input                                                              | The model sees tables and figures directly, which matters for image heavy anatomy lectures; no extraction dependency |
+| AI orchestration      | Vercel AI SDK v7                                                                | generateObject with Zod gives typed, validated study set JSON; provider swap is a one line change                    |
+| Background jobs       | DB backed queue + QStash free tier (engineer accepted recommendation)           | Serverless functions cannot run for minutes; a short worker driven by QStash processes lectures with retries         |
+| File storage          | Supabase Storage, 1 GB                                                          | Object storage per expert default; bundled with the database vendor                                                  |
+| Hosting               | Vercel Hobby (engineer accepted recommendation)                                 | Zero config deploys from GitHub, preview URL per change                                                              |
+| Analytics + errors    | PostHog (engineer's pick)                                                       | One free vendor covers product analytics, error tracking and session replay                                          |
+| Email                 | None in v1 (engineer accepted recommendation)                                   | Clerk sends verification email itself; reminders are deferred in the scope                                           |
+| Package manager, repo | pnpm; GitHub private repo (engineer accepted recommendation)                    | Fast installs; deploys flow from the repo; the repo carries the workflow state files                                 |
+| Runtime               | Node 22                                                                         | Required by AI SDK v7; pinned at scaffold                                                                            |
 
 ## Consequences
 
 **Positive**
+
 - Zero fixed monthly cost across every vendor, matching the hard constraint.
 - The AI layer is swappable: the model provider sits behind one SDK, so raising quality or escaping rate limits later is a configuration change, not a rewrite.
 - One vendor (Supabase) covers two layers, and one vendor (PostHog) covers three concerns, which keeps the operational surface small for a solo founder.
 - The load bearing versions and terms (Next.js 16, Supabase free tier terms, AI SDK v7, Gemini document input) were verified from official sources today; the numeric limits on Vercel, Gemini and QStash remain unverified and are tracked in Follow up.
 
 **Negative (accepted tradeoffs)**
+
 - Free tier ceilings everywhere: Supabase pauses projects after one week of inactivity, Gemini has daily request limits, Vercel Hobby limits are real but numerically unverified. Growth past these ceilings means the first paying change is infrastructure, not features.
 - Rate limits on the free Gemini tier mean a burst of students uploading lectures at once will queue. The student sees a processing state, not instant results, and the copy must say so honestly.
 - Four vendors to wire at scaffold time (Supabase, Clerk, PostHog, Upstash) means roughly ten environment secrets, and the Supabase service key must never reach client code.
@@ -61,6 +63,7 @@ The product is a single Next.js 16 monolith (one codebase for interface and serv
 - Preview deployments share the single production Supabase project unless a second free project is created for previews.
 
 **Neutral to learn**
+
 - Next.js 16 App Router and server components have a learning curve if the engineer has mostly used older patterns.
 - Node 22 is pinned by the AI SDK, so local setup must match.
 

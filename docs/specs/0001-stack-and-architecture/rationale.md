@@ -22,12 +22,14 @@ The landscape was verified today against official sources (versions, free tier t
 Next.js 16 (TypeScript) as one monolith on Vercel Hobby; Supabase free tier for Postgres and file storage with Drizzle as the query layer; Gemini 3.8 Flash free tier behind Vercel AI SDK v7 with native PDF input; a database backed job queue driven by QStash so processing survives serverless timeouts; Clerk for sign in; PostHog for analytics and error tracking; pnpm and a private GitHub repo.
 
 **Pros**:
+
 - Zero fixed cost across every vendor, satisfying the hard constraint with room to grow.
 - Every load bearing piece (Next.js 16, Supabase terms, AI SDK v7, Gemini document input) verified current today from official pages.
 - Supabase covers database and file storage in one project, and PostHog covers analytics, errors and session replay in one vendor: fewest moving parts for a solo operator.
 - The AI provider sits behind one SDK abstraction, so the riskiest free tier dependency (Gemini rate limits) is a swap, not a rewrite.
 
 **Cons**:
+
 - Free tier ceilings on every layer; the first real cost is infrastructure, not features.
 - Four vendors to wire at scaffold time, roughly ten secrets to manage.
 - QStash adds a queue component that needs signature verification and failure handling of its own.
@@ -37,9 +39,11 @@ Next.js 16 (TypeScript) as one monolith on Vercel Hobby; Supabase free tier for 
 Identical stack with OpenAI as the document model (its structured output quality is excellent and its document understanding is strong).
 
 **Pros**:
+
 - Arguably the strongest structured generation quality; one less exotic provider relationship.
 
 **Cons**:
+
 - No free API tier at all (trial credits only), which violates the hard constraint outright. Rejected on the constraint, not on quality.
 
 ### Option 3: Nuxt 4 + Neon + Groq
@@ -47,9 +51,11 @@ Identical stack with OpenAI as the document model (its structured output quality
 Vue based monolith on Neon serverless Postgres (no pause, cold starts instead) with Groq free inference.
 
 **Pros**:
+
 - Neon's database never needs a keep alive trick; Groq is free and extremely fast for text generation.
 
 **Cons**:
+
 - Groq runs text models without native PDF understanding, so an extraction pipeline returns and anatomy figures are lost; Neon has no storage, so file storage needs another vendor; the AI SDK's examples and community weight skew React. Rejected as strictly more moving parts for a weaker AI story.
 
 ### Option 4: SvelteKit + Cloudflare Pages + Gemini
@@ -57,9 +63,11 @@ Vue based monolith on Neon serverless Postgres (no pause, cold starts instead) w
 Lean SvelteKit monolith on Cloudflare's generous free hosting.
 
 **Pros**:
+
 - Very generous free hosting limits and a lean runtime.
 
 **Cons**:
+
 - Running a Node dependent Next.js style stack on Cloudflare Workers means adapter quirks exactly where our AI and PDF libraries live; smaller ecosystem gravity for an agent assisted solo build. Rejected on operational risk.
 
 ## Rationale
@@ -71,15 +79,18 @@ The post decision cross check surfaced real gaps and they were closed in place r
 ## References
 
 **Project sources**
+
 - `docs/scope/scope.md` row 1 (Stack & architecture, needs a decision) and the scope header (Tracer Bullet, Beta)
 - `docs/research/feature-research.md` (the product evidence base behind the features this stack must serve)
 - `WORKFLOW.md` decisions log entries 6 to 11 (engineer constraints and round picks)
 - Clerk agent skill suite, provided by the agent environment (not a project file)
 
 **Practices and standards**
+
 - Monolith first for small teams; boring proven technology; relational database as the default store; object storage, never files in the database; database backed queue before any broker; a proven auth service, never build from scratch; observability from day one; install dependencies just in time; provider abstraction against lock in; design for failure, not the happy path.
 
 **Links (fetched and verified 2026-09-07)**
+
 - Next.js current version: https://registry.npmjs.org/next/latest
 - Supabase pricing and free tier terms: https://supabase.com/pricing
 - Vercel AI SDK current version: https://registry.npmjs.org/ai/latest

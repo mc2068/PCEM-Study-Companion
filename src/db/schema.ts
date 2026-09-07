@@ -7,7 +7,5 @@ export const students = pgTable("students", {
   // Clerk user id — the single identity key across the whole app.
   id: text("id").primaryKey(),
   email: text("email").notNull(),
-  createdAt: timestamp("created_at", { withTimezone: true })
-    .notNull()
-    .defaultNow(),
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
 });

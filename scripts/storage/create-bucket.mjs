@@ -40,4 +40,8 @@ const signRes = await fetch(`${base}/storage/v1/object/upload/sign/lectures/pipe
   body: JSON.stringify({ expiresIn: 60 }),
 });
 const signBody = await signRes.json().catch(() => ({}));
-console.log("signed upload url:", signRes.status, signBody?.url ? "ISSUED ✓" : JSON.stringify(signBody).slice(0, 120));
+console.log(
+  "signed upload url:",
+  signRes.status,
+  signBody?.url ? "ISSUED ✓" : JSON.stringify(signBody).slice(0, 120),
+);

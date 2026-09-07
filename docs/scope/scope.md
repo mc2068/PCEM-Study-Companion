@@ -19,58 +19,67 @@ that does not fit: if you already know how to build a feature, use `/develop` an
 
 ## At a glance
 
-| # | Feature | Phase | Status |
-|---|---------|-------|--------|
-| 1 | Stack & architecture | Foundation | in-progress |
-| 2 | Coding standards & tooling | Foundation | planned |
-| 3 | Data model | Foundation | planned |
-| 4 | Design system & UI foundation | Foundation | planned |
-| 5 | Core study loop | Slice 1 | planned |
-| 6 | Spaced repetition review | Slice 2 | planned |
-| 7 | Grounded concept chat | Slice 3 | planned |
-| 8 | Module & semester library | Slice 4 | planned |
-| 9 | Exam mode | Slice 5 | planned |
-| 10 | Progress dashboard | Slice 6 | planned |
+| #   | Feature                       | Phase      | Status  |
+| --- | ----------------------------- | ---------- | ------- |
+| 1   | Stack & architecture          | Foundation | shipped |
+| 2   | Coding standards & tooling    | Foundation | planned |
+| 3   | Data model                    | Foundation | planned |
+| 4   | Design system & UI foundation | Foundation | planned |
+| 5   | Core study loop               | Slice 1    | planned |
+| 6   | Spaced repetition review      | Slice 2    | planned |
+| 7   | Grounded concept chat         | Slice 3    | planned |
+| 8   | Module & semester library     | Slice 4    | planned |
+| 9   | Exam mode                     | Slice 5    | planned |
+| 10  | Progress dashboard            | Slice 6    | planned |
 
 ## Foundations
 
-### 1. Stack & architecture · in-progress
+### 1. Stack & architecture · shipped
+
 Choose the stack and scaffold a runnable project so every later slice builds on real
 structure. Nothing tooling related happens before this decision.
 **Done when:** the stack is recorded in a spec, the empty scaffold boots locally,
 passes build, and deploys to a live URL.
+
 - [x] Decide the stack (spec): `/architect stack & architecture`
 - [x] Scaffold from the decision: `/develop stack & architecture` (boot confirmed 2026-09-07)
-- [ ] Smoke check it runs: `/test`
+- [x] Smoke check it runs: `/test` (live URL responds, Clerk auth wall verified 2026-09-07)
 
 Spec 0001
 
 ### 2. Coding standards & tooling
+
 Capture conventions and install lint, format, and pre commit enforcement from the real
 scaffolded project, so all later code follows the same rules.
 **Done when:** root `AGENTS.md` reflects the real stack, and lint, format and pre
 commit run clean.
+
 - [ ] Capture conventions + tooling choices: `/audit`
 - [ ] Install the tooling: `/develop tooling`
 - [ ] Check it runs clean: `/test`
 
 ### 3. Data model · needs a decision
+
 Core entities every slice builds on: students, semesters, modules, lectures, generated
 summaries, flashcards, quiz questions and attempts, and the review schedule.
 **Done when:** entities and relationships support every later slice (reviews, chat,
 exam mode, dashboard) without a breaking migration.
+
 - [ ] Design it (spec): `/architect data model`
 
 ### 4. Design system & UI foundation · needs a decision
+
 Visual language and base components for a calm, focused, French first interface that
 works on a phone sized screen, since students study on phones too.
 **Done when:** `design.md` covers type, color, spacing and base components, and base
 components handle focus and keyboard.
+
 - [ ] Design it (spec): `/architect design system & UI foundation`
 
 ## Slice 1: Core study loop
 
 ### 5. Core study loop · needs a decision
+
 The walking skeleton, the whole journey thin and real: sign in, upload a lecture PDF,
 read a structured summary that explains the key concepts in simple French, study
 flashcards, answer a few quiz questions, all generated from that exact lecture.
@@ -78,57 +87,70 @@ flashcards, answer a few quiz questions, all generated from that exact lecture.
 of its key concepts in simple French within minutes, studies flashcards and answers
 quiz questions generated from that same lecture, a failed upload or processing shows
 a clear retry state and never silence, and the whole path works on the deployed URL.
+
 - [ ] Design it (spec): `/architect core study loop`
 
 ## Slice 2: Spaced repetition review
 
 ### 6. Spaced repetition review · needs a decision
+
 Cards come back at growing intervals, so revision happens just before forgetting. This
 is the daily return habit and the most evidence backed feature in the product.
 **Done when:** cards graded today change what is due on later days, a due today queue
 exists per student, and the queue pulls cards from every module, not just the newest
 lecture.
+
 - [ ] Design it (spec): `/architect spaced repetition review`
 
 ## Slice 3: Grounded concept chat
 
 ### 7. Grounded concept chat · needs a decision
+
 Ask a question about the open lecture and get an answer built only from that lecture's
 content, so understanding deepens without leaving the source of truth.
 **Done when:** an answer uses only the open lecture's content, points to the section
 it comes from, and says clearly when the lecture does not contain the answer.
+
 - [ ] Design it (spec): `/architect grounded concept chat`
 
 ## Slice 4: Module & semester library
 
 ### 8. Module & semester library
+
 Organize lectures the way PCEM organizes them: semesters and named modules like
 Anatomie or Histologie, so months of material stay navigable.
 **Done when:** lectures are organized by semester and module, the URL reflects the
 selection, an empty module shows a friendly state, and every study set links back to
 its source lecture.
+
 - [ ] Design it (spec): `/architect module & semester library`
 
 ## Slice 5: Exam mode
 
 ### 9. Exam mode · needs a decision
+
 A timed session of multiple choice questions drawn from chosen modules, mirroring the
 examens blancs culture, with a score and an explanation per question.
 **Done when:** a student can start a timed 20 question session from chosen modules,
 finish it, and see a score with an explanation for every question.
+
 - [ ] Design it (spec): `/architect exam mode`
 
 ## Slice 6: Progress dashboard
 
 ### 10. Progress dashboard
+
 Coverage, streak and weak modules from the student's real data, to keep motivation
 honest instead of decorative.
 **Done when:** the dashboard shows per module coverage, the review streak and the
 number of cards due, computed from real data, with an empty state for new students.
+
 - [ ] Design it (spec): `/architect progress dashboard`
 
 ## Deferred
+
 Out of scope for the current build pass, kept so the plan stays honest.
+
 - **Billing & paid plans**: freemium, monthly limits with a paid unlimited tier · needs a decision
 - **Video & YouTube lectures**: process recorded lectures, not just PDFs · needs a decision
 - **Annales & past exams**: students upload past exam PDFs and generate practice sessions from them · needs a decision
