@@ -1,8 +1,18 @@
-import { clerkMiddleware } from "@clerk/nextjs/server";
+import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 
-// Auth middleware (spec 0001: Clerk). No routes are protected yet —
-// protection lands with slice 1's real pages; this mounts the handler.
-export default clerkMiddleware();
+// Public routes: Clerk's own auth pages, the health probe, and the QStash
+// pipeline webhook (it authenticates via its own signature verification,
+// spec 0004). Everything else requires a signed-in student (AC-1).
+const isPublicRoute = createRouteMatcher([
+  "/sign-in(.*)",
+  "/sign-up(.*)",
+  "/api/health",
+  "/api/pipeline/qstash(.*)",
+]);
+
+export default clerkMiddleware(async (auth, req) => {
+  if (!isPublicRoute(req)) await auth.protect();
+});
 
 export const config = {
   matcher: [
