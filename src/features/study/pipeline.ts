@@ -46,6 +46,14 @@ export async function runPrepare(lectureId: string): Promise<void> {
     .set({ pageCount, totalChunks, updatedAt: new Date() })
     .where(eq(lectures.id, lectureId));
 
+  // Retry path: failed chunks re-run; done chunks keep their cached output
+  // (spec 0004 AC-6). A failed → processing claim already happened upstream
+  // (retryLecture or the reaper reset), so resetting here is safe.
+  await db
+    .update(lectureChunks)
+    .set({ status: "pending" })
+    .where(and(eq(lectureChunks.lectureId, lectureId), eq(lectureChunks.status, "failed")));
+
   const planned = await db.query.lectureChunks.findMany({
     where: and(eq(lectureChunks.lectureId, lectureId), eq(lectureChunks.status, "pending")),
   });

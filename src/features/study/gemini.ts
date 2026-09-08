@@ -1,15 +1,18 @@
 import { generateObject } from "ai";
-import { google } from "@ai-sdk/google";
+import { createGoogle } from "@ai-sdk/google";
 import { chunkOutputSchema, mergedSummarySchema } from "./schemas";
 import { GEMINI_MODEL, GEMINI_TIMEOUT_MS } from "./constants";
 
 // All Gemini calls go through generateObject with Zod validation
 // (spec 0001/0004). Per call timeout stays under the function limit.
+// The key is passed explicitly: the provider does not read GEMINI_API_KEY.
+const google = createGoogle({ apiKey: process.env.GEMINI_API_KEY });
+const model = google(GEMINI_MODEL);
 
 export async function runChunkInference(pdfBytes: Uint8Array): Promise<unknown> {
   try {
     const { object } = await generateObject({
-      model: google(GEMINI_MODEL),
+      model,
       schema: chunkOutputSchema,
       abortSignal: AbortSignal.timeout(GEMINI_TIMEOUT_MS),
       messages: [
@@ -42,7 +45,7 @@ export async function runMergeInference(
 ): Promise<unknown> {
   try {
     const { object } = await generateObject({
-      model: google(GEMINI_MODEL),
+      model,
       schema: mergedSummarySchema,
       abortSignal: AbortSignal.timeout(GEMINI_TIMEOUT_MS),
       prompt: `Tu es un assistant de révision pour étudiants en médecine (PCEM).

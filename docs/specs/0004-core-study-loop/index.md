@@ -44,17 +44,17 @@ Build the full tracer bullet: signed in shell, direct to storage upload, one QSt
 
 **Constants** (owned by this spec, retuned only by spec update):
 
-| Constant                | Value                                               | Used for                                                |
-| ----------------------- | --------------------------------------------------- | ------------------------------------------------------- |
-| Chunk size              | 5 pages                                             | prepare worker chunk plan                               |
-| Chunk ceiling           | 12 chunks (60 pages)                                | upload refusal with French message                      |
-| Cards per chunk cap     | 20                                                  | position math (`chunkIndex × 20 + index`)               |
-| Questions per chunk cap | 5                                                   | position math (same formula, separate sequence)         |
-| Gemini model            | `gemini-2.5-flash`                                  | all `generateObject` calls, per call timeout under 60 s |
-| Stuck thresholds        | 10 min chunk, 10 min zero progress, 30 min uploaded | reaper on read                                          |
-| QStash retries          | 3 per message                                       | publish config; exhaustion handled by the reaper        |
-| Progress poll           | 5 s                                                 | lecture page while `processing`                         |
-| Daily upload cap        | 10                                                  | quota check                                             |
+| Constant                | Value                                               | Used for                                                                                                                                                    |
+| ----------------------- | --------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Chunk size              | 5 pages                                             | prepare worker chunk plan                                                                                                                                   |
+| Chunk ceiling           | 12 chunks (60 pages)                                | upload refusal with French message                                                                                                                          |
+| Cards per chunk cap     | 20                                                  | position math (`chunkIndex × 20 + index`)                                                                                                                   |
+| Questions per chunk cap | 5                                                   | position math (same formula, separate sequence)                                                                                                             |
+| Gemini model            | `gemini-3.6-flash`                                  | all `generateObject` calls, per call timeout under 60 s. Corrected from `gemini-2.5-flash` during deploy verification: the API closes 2.5-flash to new keys |
+| Stuck thresholds        | 10 min chunk, 10 min zero progress, 30 min uploaded | reaper on read                                                                                                                                              |
+| QStash retries          | 3 per message                                       | publish config; exhaustion handled by the reaper                                                                                                            |
+| Progress poll           | 5 s                                                 | lecture page while `processing`                                                                                                                             |
+| Daily upload cap        | 10                                                  | quota check                                                                                                                                                 |
 
 **French copy rule**: all student visible strings (validation errors, failure messages, the AC-12 disclosure, empty states) come from one shared constants map in `src/features/study/` (single source, easy to review), for example "Fichier trop volumineux (25 Mo max)", "Limite quotidienne d'uploads atteinte", "Format PDF requis", "Cours trop long (60 pages max)", "Le contenu envoyé peut être utilisé par Google (forfait gratuit Gemini)".
 
