@@ -20,6 +20,7 @@ export function LectureHeader({
   state,
   processed,
   total,
+  errorMessage,
 }: {
   lectureId: string;
   title: string;
@@ -27,6 +28,7 @@ export function LectureHeader({
   state: State;
   processed: number;
   total: number;
+  errorMessage?: string | null;
 }) {
   const router = useRouter();
   const live = state === "processing" || state === "uploaded";
@@ -74,6 +76,11 @@ export function LectureHeader({
             <AlertTriangle className="size-4" aria-hidden />
             {COPY.stateFailed}
           </p>
+          {errorMessage && (
+            <p className="mt-1 text-sm text-error-text" role="alert">
+              {errorMessage}
+            </p>
+          )}
           <Button size="sm" className="mt-3" onClick={() => void retry()}>
             {COPY.retryAction}
           </Button>

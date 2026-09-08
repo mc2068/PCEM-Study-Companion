@@ -52,6 +52,7 @@ export default async function LecturePage(props: {
         state={lecture.processingState}
         processed={lecture.processedChunks}
         total={lecture.totalChunks}
+        errorMessage={lecture.errorMessage}
       />
 
       <nav aria-label="Sections du cours" className="mt-4 flex gap-1 border-b border-border">

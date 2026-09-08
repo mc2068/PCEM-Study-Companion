@@ -95,11 +95,11 @@ quiz questions generated from that same lecture, a failed upload or processing s
 a clear retry state and never silence, and the whole path works on the deployed URL.
 
 - [x] Design it (spec): `/architect core study loop`
-- [ ] Build it: `/develop core study loop`
-  - [ ] Shell + upload path (AC-1, AC-2, AC-3, AC-10, AC-12)
-  - [ ] Pipeline core: QStash chunks, merge, reaper (AC-4, AC-5, AC-6)
-  - [ ] Lecture and study surfaces (AC-6, AC-7, AC-8, AC-9)
-  - [ ] Deploy verification (AC-11)
+- [x] Build it: `/develop core study loop`
+  - [x] Shell + upload path (AC-1, AC-2, AC-3, AC-10, AC-12)
+  - [x] Pipeline core: QStash chunks, merge, reaper (AC-4, AC-5, AC-6)
+  - [x] Lecture and study surfaces (AC-6, AC-7, AC-8, AC-9)
+  - [x] Deploy verification (AC-11)
 - [ ] Verify it: `/check verify core study loop`
 - [ ] Test it: `/test core study loop`
 

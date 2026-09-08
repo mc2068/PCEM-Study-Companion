@@ -7,6 +7,8 @@ import { runChunkInference, runMergeInference } from "./gemini";
 import { chunkOutputSchema, mergedSummarySchema, type ChunkOutput } from "./schemas";
 import {
   CHUNK_PAGES,
+  COPY,
+  MAX_CHUNKS,
   MAX_CARDS_PER_CHUNK,
   MAX_QUESTIONS_PER_CHUNK,
   STUCK_CHUNK_MS,
@@ -25,6 +27,23 @@ export async function runPrepare(lectureId: string): Promise<void> {
   const { PDFDocument } = await import("pdf-lib");
   const pdf = await PDFDocument.load(bytes, { ignoreEncryption: true }); // throws on non PDF → failed
   const pageCount = pdf.getPageCount();
+
+  // 60 page ceiling (spec 0004 AC-2): over 12 chunks the lecture is refused
+  // with the French message. Page count is first knowable here because the
+  // bytes go direct to storage, never through the upload path.
+  if (pageCount > MAX_CHUNKS * CHUNK_PAGES) {
+    await db
+      .update(lectures)
+      .set({
+        pageCount,
+        processingState: "failed",
+        errorMessage: COPY.errTooLong,
+        updatedAt: new Date(),
+      })
+      .where(eq(lectures.id, lectureId));
+    return;
+  }
+
   const totalChunks = Math.ceil(pageCount / CHUNK_PAGES);
 
   // Idempotent replanning: create missing chunk rows, keep existing outputs.
