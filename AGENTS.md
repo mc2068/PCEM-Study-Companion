@@ -118,6 +118,8 @@ Run these from the project root and report the real output. Never claim a check 
 
 - Types: `npx tsc --noEmit`
 - Lint: `npm run lint`
+- Tests: `npm test` (vitest)
+- Contrast gate: `npm run check:contrast` (WCAG AA pairs, both themes; hard gate for any token change in globals.css)
 - Build: `npm run build` (when routes, config, or server code changed)
 - Server: `npm run dev`, then check `http://localhost:3000/api/health`
 - Database: `npm run db:push` after schema changes; `node --env-file=.env.local scripts/db/pipe-proof.mjs` proves the connection
