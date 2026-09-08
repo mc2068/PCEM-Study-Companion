@@ -89,7 +89,9 @@ await sql.unsafe(`
     CONSTRAINT lecture_chunks_lecture_index_key UNIQUE (lecture_id, chunk_index)
   );
 `);
-await sql.unsafe(`CREATE INDEX IF NOT EXISTS lecture_chunks_lecture_idx ON lecture_chunks (lecture_id);`);
+await sql.unsafe(
+  `CREATE INDEX IF NOT EXISTS lecture_chunks_lecture_idx ON lecture_chunks (lecture_id);`,
+);
 
 // ── flashcards ──
 await sql.unsafe(`
@@ -109,7 +111,9 @@ await sql.unsafe(`
   );
 `);
 await sql.unsafe(`CREATE INDEX IF NOT EXISTS flashcards_lecture_idx ON flashcards (lecture_id);`);
-await sql.unsafe(`CREATE INDEX IF NOT EXISTS flashcards_student_due_idx ON flashcards (student_id, due_at);`);
+await sql.unsafe(
+  `CREATE INDEX IF NOT EXISTS flashcards_student_due_idx ON flashcards (student_id, due_at);`,
+);
 
 // ── review_logs ──
 await sql.unsafe(`
@@ -123,7 +127,9 @@ await sql.unsafe(`
     CONSTRAINT review_logs_student_card_day_key UNIQUE (student_id, flashcard_id, reviewed_day)
   );
 `);
-await sql.unsafe(`CREATE INDEX IF NOT EXISTS review_logs_student_day_idx ON review_logs (student_id, reviewed_day);`);
+await sql.unsafe(
+  `CREATE INDEX IF NOT EXISTS review_logs_student_day_idx ON review_logs (student_id, reviewed_day);`,
+);
 
 // ── quiz_questions ──
 await sql.unsafe(`
@@ -140,7 +146,9 @@ await sql.unsafe(`
     CONSTRAINT quiz_questions_options_check CHECK (jsonb_array_length(options) = 4)
   );
 `);
-await sql.unsafe(`CREATE INDEX IF NOT EXISTS quiz_questions_lecture_idx ON quiz_questions (lecture_id);`);
+await sql.unsafe(
+  `CREATE INDEX IF NOT EXISTS quiz_questions_lecture_idx ON quiz_questions (lecture_id);`,
+);
 
 // ── exam_attempts ──
 await sql.unsafe(`
@@ -154,7 +162,9 @@ await sql.unsafe(`
     score real
   );
 `);
-await sql.unsafe(`CREATE INDEX IF NOT EXISTS exam_attempts_student_started_idx ON exam_attempts (student_id, started_at);`);
+await sql.unsafe(
+  `CREATE INDEX IF NOT EXISTS exam_attempts_student_started_idx ON exam_attempts (student_id, started_at);`,
+);
 
 // ── exam_attempt_questions ──
 await sql.unsafe(`
@@ -179,7 +189,9 @@ await sql.unsafe(`
     created_at timestamptz NOT NULL DEFAULT now()
   );
 `);
-await sql.unsafe(`CREATE INDEX IF NOT EXISTS usage_events_student_created_idx ON usage_events (student_id, created_at);`);
+await sql.unsafe(
+  `CREATE INDEX IF NOT EXISTS usage_events_student_created_idx ON usage_events (student_id, created_at);`,
+);
 
 // ── chat_messages ──
 await sql.unsafe(`
@@ -193,7 +205,9 @@ await sql.unsafe(`
     created_at timestamptz NOT NULL DEFAULT now()
   );
 `);
-await sql.unsafe(`CREATE INDEX IF NOT EXISTS chat_messages_lecture_created_idx ON chat_messages (lecture_id, created_at);`);
+await sql.unsafe(
+  `CREATE INDEX IF NOT EXISTS chat_messages_lecture_created_idx ON chat_messages (lecture_id, created_at);`,
+);
 
 const tables = await sql`
   SELECT table_name FROM information_schema.tables

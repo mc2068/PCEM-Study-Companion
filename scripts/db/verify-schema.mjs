@@ -18,9 +18,17 @@ const tables = (
   `
 ).map((t) => t.table_name);
 const expected = [
-  "students", "modules", "lectures", "lecture_chunks", "flashcards",
-  "review_logs", "quiz_questions", "exam_attempts", "exam_attempt_questions",
-  "usage_events", "chat_messages",
+  "students",
+  "modules",
+  "lectures",
+  "lecture_chunks",
+  "flashcards",
+  "review_logs",
+  "quiz_questions",
+  "exam_attempts",
+  "exam_attempt_questions",
+  "usage_events",
+  "chat_messages",
 ];
 ok(
   "AC-1 eleven tables",

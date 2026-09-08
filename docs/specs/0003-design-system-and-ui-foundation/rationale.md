@@ -11,11 +11,13 @@ Scope row 4 promises the visual language and base components for a calm, focused
 Colors, radii, shadows, and fonts as CSS variables in globals.css under @theme, with a semantic layer (background, surface, primary, and so on) whose values swap for dark mode under a .dark class. Radix primitives under the hood for the interactive pieces, lucide for icons, a /design route as the living proof.
 
 **Pros**:
+
 - One source of truth; Tailwind v4 generates the utilities from the variables with no config file.
 - Dark mode is a value swap, not a component rewrite.
 - Radix carries the keyboard and ARIA burden for Switch and Tabs, which is exactly the acceptance bar chosen.
 
 **Cons**:
+
 - Two small runtime dependencies (next-themes, Radix pieces) plus lucide.
 - Component code must stay disciplined: any raw hex sneaking in breaks the dark mode invariant.
 
@@ -24,9 +26,11 @@ Colors, radii, shadows, and fonts as CSS variables in globals.css under @theme, 
 Keep the ten measured colors as direct utilities (bg-indigo, text-amber) and skip the naming layer.
 
 **Pros**:
+
 - Marginally less indirection; the measured values are right there in the class names.
 
 **Cons**:
+
 - Dark mode becomes a find and replace across every component, the exact churn this spec exists to prevent.
 - States (hover, tint, border) have nowhere principled to live.
 
@@ -35,9 +39,11 @@ Keep the ten measured colors as direct utilities (bg-indigo, text-amber) and ski
 Write the guide, keep colors as literals in components, trust review to keep them consistent.
 
 **Pros**:
+
 - Zero dependency and zero CSS architecture to learn.
 
 **Cons**:
+
 - Nothing enforced; every screen re interprets the guide, and the drift the scope row warns about arrives by default.
 
 The engineer additionally directed that the design system sheet itself be the source (custom answer in round 1), which decided the method: extract the sheet's real values rather than author new ones. Dark mode in both themes now was also the engineer's explicit choice over the recommended light only v1, accepting the doubled verification surface; the token layer exists precisely to keep that cost low.
@@ -49,6 +55,7 @@ Three forces drove Option 1. First, the acceptance bar the engineer chose (AA co
 ## References
 
 **Project sources** (verifiable, in this repo):
+
 - `docs/design/UI designs/0. Design system sheet….png` and the eight screen PNGs (the approved visual DNA)
 - `docs/design/ui-image-prompts.md` (the style block naming the color families and mood)
 - `scripts/design/extract-palette.mjs` (the extraction that produced the anchors: #444ad4, #f5a41b, #23b189, #eb4c49, #fdfaf6, #323c4b)
@@ -56,6 +63,7 @@ Three forces drove Option 1. First, the acceptance bar the engineer chose (AA co
 - `AGENTS.md` sections 3, 5, 7 (reference fidelity, boundaries, French first)
 
 **Practices & standards**:
+
 - Tailwind v4 @theme CSS variable tokens (the framework's native token mechanism)
 - WCAG 2.1 AA contrast (4.5 to 1 body, 3 to 1 large and UI)
 - Radix primitives accessibility patterns (keyboard and ARIA for controls)

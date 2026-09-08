@@ -47,27 +47,27 @@ contrast script, and design.md — then run every check.
 
 ## Files to touch
 
-| File | Change |
-|---|---|
-| `src/app/globals.css` | full rewrite: token layer per AC-1/AC-2 (measured anchors + re-tuned dark values, tints, state tokens, ramps, radius/shadow/motion scales, reduced-motion rule) |
-| `src/app/layout.tsx` | ThemeProvider inside ClerkProvider, suppressHydrationWarning on html |
-| `src/components/theme-provider.tsx` | new: 'use client' next-themes wrapper |
-| `src/lib/cn.ts` | new: clsx + tailwind-merge helper |
-| `src/components/ui/button.tsx` | new: 4 variants, 3 sizes, isLoading, disabled, href polymorphic |
-| `src/components/ui/input.tsx` | new: label, error (aria-invalid + describedby), French-ready |
-| `src/components/ui/textarea.tsx` | new: same API as Input |
-| `src/components/ui/card.tsx` | new: surface container |
-| `src/components/ui/badge.tsx` | new: 5 variants (tinted bg + strong text), pill shape |
-| `src/components/ui/switch.tsx` | new: Radix, sm/md, label association |
-| `src/components/ui/tabs.tsx` | new: Radix, underline variant, controlled pass-through |
-| `src/components/ui/progress.tsx` | new: value, label slot, indeterminate pulse |
-| `src/components/ui/select.tsx` | new: styled native select, label/error |
-| `src/app/design/page.tsx` | new: style tile, all components/variants, French labels, theme toggle |
-| `scripts/design/check-contrast.mjs` | new: AA hard gate over the token pair matrix |
-| `package.json` | `check:contrast` script + 6 deps |
-| `docs/design/design.md` | new: systems, rules, composed patterns, Clerk appearance mapping, 9-screen mapping |
-| `docs/specs/0003-design-system-and-ui-foundation/*` | status → In Progress at build start; verify.md evidence at the end |
-| `docs/scope/scope.md` | row 4 build box tick when verified |
+| File                                                | Change                                                                                                                                                          |
+| --------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `src/app/globals.css`                               | full rewrite: token layer per AC-1/AC-2 (measured anchors + re-tuned dark values, tints, state tokens, ramps, radius/shadow/motion scales, reduced-motion rule) |
+| `src/app/layout.tsx`                                | ThemeProvider inside ClerkProvider, suppressHydrationWarning on html                                                                                            |
+| `src/components/theme-provider.tsx`                 | new: 'use client' next-themes wrapper                                                                                                                           |
+| `src/lib/cn.ts`                                     | new: clsx + tailwind-merge helper                                                                                                                               |
+| `src/components/ui/button.tsx`                      | new: 4 variants, 3 sizes, isLoading, disabled, href polymorphic                                                                                                 |
+| `src/components/ui/input.tsx`                       | new: label, error (aria-invalid + describedby), French-ready                                                                                                    |
+| `src/components/ui/textarea.tsx`                    | new: same API as Input                                                                                                                                          |
+| `src/components/ui/card.tsx`                        | new: surface container                                                                                                                                          |
+| `src/components/ui/badge.tsx`                       | new: 5 variants (tinted bg + strong text), pill shape                                                                                                           |
+| `src/components/ui/switch.tsx`                      | new: Radix, sm/md, label association                                                                                                                            |
+| `src/components/ui/tabs.tsx`                        | new: Radix, underline variant, controlled pass-through                                                                                                          |
+| `src/components/ui/progress.tsx`                    | new: value, label slot, indeterminate pulse                                                                                                                     |
+| `src/components/ui/select.tsx`                      | new: styled native select, label/error                                                                                                                          |
+| `src/app/design/page.tsx`                           | new: style tile, all components/variants, French labels, theme toggle                                                                                           |
+| `scripts/design/check-contrast.mjs`                 | new: AA hard gate over the token pair matrix                                                                                                                    |
+| `package.json`                                      | `check:contrast` script + 6 deps                                                                                                                                |
+| `docs/design/design.md`                             | new: systems, rules, composed patterns, Clerk appearance mapping, 9-screen mapping                                                                              |
+| `docs/specs/0003-design-system-and-ui-foundation/*` | status → In Progress at build start; verify.md evidence at the end                                                                                              |
+| `docs/scope/scope.md`                               | row 4 build box tick when verified                                                                                                                              |
 
 ## Requirements
 

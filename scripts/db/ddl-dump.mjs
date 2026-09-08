@@ -4,9 +4,17 @@ import postgres from "postgres";
 const sql = postgres(process.env.DATABASE_URL, { prepare: false, max: 1 });
 
 const tables = [
-  "students", "modules", "lectures", "lecture_chunks", "flashcards",
-  "review_logs", "quiz_questions", "exam_attempts", "exam_attempt_questions",
-  "usage_events", "chat_messages",
+  "students",
+  "modules",
+  "lectures",
+  "lecture_chunks",
+  "flashcards",
+  "review_logs",
+  "quiz_questions",
+  "exam_attempts",
+  "exam_attempt_questions",
+  "usage_events",
+  "chat_messages",
 ];
 
 for (const t of tables) {
@@ -20,7 +28,7 @@ for (const t of tables) {
   for (const c of cols) {
     console.log(
       `  col ${c.column_name} ${c.udt_name}${c.is_nullable === "NO" ? " NOT NULL" : ""}` +
-      (c.column_default ? ` DEFAULT ${c.column_default}` : "")
+        (c.column_default ? ` DEFAULT ${c.column_default}` : ""),
     );
   }
   const cons = await sql.unsafe(`

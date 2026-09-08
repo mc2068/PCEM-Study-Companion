@@ -10,11 +10,13 @@ This spec builds the visual foundation every screen of the app will use: color t
 ## Requirements
 
 **User stories**:
+
 - As an engineer building a screen, I want tokens and base components that already match the approved designs so that I assemble interfaces instead of styling from scratch.
 - As a student using the app at night, I want a dark theme that follows my system or my choice without a flash of the wrong theme.
 - As a student using a keyboard or a screen reader, I want every control operable and visible focus so that studying works for me.
 
 **Acceptance criteria** (the contract):
+
 - **AC-1**: Design tokens live as CSS variables in globals.css through Tailwind v4 @theme: the semantic set (background, surface, text, muted text, border, ring, primary, primary hover, accent, accent hover, success, error, disabled background, disabled text), a radius scale (8, 12, 16, 24, full), a two level shadow scale, and the Geist font variables; Tailwind v4 class dark mode is wired via `@custom-variant dark (&:where(.dark, .dark *))` and the scaffold's prefers-color-scheme block is removed; the token block uses `@theme inline`.
 - **AC-2**: Every semantic text and interactive color pair meets WCAG 2.1 AA (4.5 to 1 body, 3 to 1 large and UI) in both themes, enforced by `scripts/design/check-contrast.mjs` as a hard gate (no warnings escape); contrast-safe pairings are pre-decided: on amber and sage fills text uses the dark slate (#323c4b on amber ≈ 5.4 to 1), the red button darkens to #c93835 for white text, amber and sage as text on light use darkened variants (#a86e00, #177e5f).
 - **AC-3**: next-themes is wired inside ClerkProvider in layout.tsx (`attribute="class"`, `defaultTheme="system"`, `enableSystem`, `disableTransitionOnChange`) with `suppressHydrationWarning` on `<html>`, so system theme is default, manual choice persists, and there is no flash of the wrong theme.
@@ -39,16 +41,16 @@ This spec builds the visual foundation every screen of the app will use: color t
 
 **API surface**: none. One page route (`/design`, static composition) plus a shared `cn()` helper at `src/lib/cn.ts`. No server actions, no endpoints.
 
-| Action | Value produced / displayed | Source |
-|---|---|---|
-| Any component color | semantic token value | CSS variables in globals.css (AC-1), dark values swapped by .dark class (AC-3) |
-| Dark theme values | the re-tuned palette (named below) | decided here, marked "re-tuned, not measured" (the sheet is light only) |
-| Contrast proof | pass or fail per pair | `scripts/design/check-contrast.mjs` regex parses the :root and .dark blocks of globals.css and evaluates the fixed pair matrix (AC-2) |
-| Theme resolution | light or dark at load | next-themes class strategy + system (AC-3) |
-| Style tile labels | French strings | hardcoded per AGENTS.md section 7 (no i18n layer in scope) |
-| Component variants | prop driven classes | component files in src/components/ui (AC-4) |
-| Icons | lucide-react named icons, colored by currentColor | lucide-react package (AC-4) |
-| Screen mapping in design.md | component and token names per screen | the nine approved PNGs in docs/design/UI designs (sheet plus eight screens; the four later prompts have no generated PNG yet) (AC-8) |
+| Action                      | Value produced / displayed                        | Source                                                                                                                                |
+| --------------------------- | ------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+| Any component color         | semantic token value                              | CSS variables in globals.css (AC-1), dark values swapped by .dark class (AC-3)                                                        |
+| Dark theme values           | the re-tuned palette (named below)                | decided here, marked "re-tuned, not measured" (the sheet is light only)                                                               |
+| Contrast proof              | pass or fail per pair                             | `scripts/design/check-contrast.mjs` regex parses the :root and .dark blocks of globals.css and evaluates the fixed pair matrix (AC-2) |
+| Theme resolution            | light or dark at load                             | next-themes class strategy + system (AC-3)                                                                                            |
+| Style tile labels           | French strings                                    | hardcoded per AGENTS.md section 7 (no i18n layer in scope)                                                                            |
+| Component variants          | prop driven classes                               | component files in src/components/ui (AC-4)                                                                                           |
+| Icons                       | lucide-react named icons, colored by currentColor | lucide-react package (AC-4)                                                                                                           |
+| Screen mapping in design.md | component and token names per screen              | the nine approved PNGs in docs/design/UI designs (sheet plus eight screens; the four later prompts have no generated PNG yet) (AC-8)  |
 
 **The token set** (the build implements this exactly):
 
@@ -57,6 +59,7 @@ This spec builds the visual foundation every screen of the app will use: color t
 - Full 50 to 950 ramps are generated around the measured anchors; components consume only the semantic names above.
 
 **Key invariants**:
+
 - Components never hardcode colors; they consume semantic tokens (AC-9), so dark mode needs no component changes.
 - The measured anchors stay traceable: each anchor token carries a comment naming the value extracted from the sheet; dark values carry "re-tuned, not measured".
 - Contrast pairings are pre-decided (AC-2 list); the contrast script is a hard gate in the build, not advisory.
@@ -68,6 +71,7 @@ This spec builds the visual foundation every screen of the app will use: color t
 **Configuration required**: none. next-themes needs no environment variable; Radix and lucide are code dependencies only.
 
 **Critical test scenarios**:
+
 - Happy path: opening /design signed in shows the full tile in the system theme; toggling the theme class swaps every token with no flash on reload, verifies AC-3, AC-7
 - Keyboard: tabbing to the Switch and pressing Space flips it; arrow keys move between Tabs and the panel follows, verifies AC-5
 - Contrast: the script fails the build on any pair under 4.5 to 1 (body) or 3 to 1 (large or UI) in either theme, verifies AC-2
@@ -91,11 +95,13 @@ Tracer Bullet ordering: tokens first (the thread every piece hangs on), then the
 ## Consequences
 
 **Positive**:
+
 - Every later screen assembles from proven, accessible pieces; Slice 1 stops being a styling project.
 - Dark mode exists at the foundation, so no screen ships light only and gets retrofitted.
 - The measured palette is the single visual truth; drift between PNGs and code becomes greppable.
 
 **Negative / tradeoffs**:
+
 - next-themes and two Radix packages enter the dependency tree with their update cadence.
 - Tokens constrain future screens: a design the tokens cannot express means a token change first (deliberate friction).
 - The /design route is a permanent page to keep compiling and current.
@@ -103,6 +109,7 @@ Tracer Bullet ordering: tokens first (the thread every piece hangs on), then the
 - Dark values are re-tuned, not measured: they are consistent siblings of the measured palette but the engineer should eyeball them against taste at the first /design pass.
 
 **Neutral**:
+
 - The theme toggle UI itself arrives with the first screen that owns a header; the mechanism and the tile exist now.
 - Light mode is the default; the dark values are re-tuned for contrast rather than inverted, so the two themes are siblings, not mirrors.
 - The hosted Clerk sign in screen is styled through Clerk appearance props, not these tokens directly; design.md records the mapping.

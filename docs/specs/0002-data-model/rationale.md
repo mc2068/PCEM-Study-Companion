@@ -11,10 +11,12 @@ Spec 0001 settled the stack but left the data model undecided on purpose, and it
 Model all ten features' entities in one spec: modules, lectures, chunks, flashcards with inline SM 2 state, review logs, quiz questions, exam attempts with per question rows, and append only usage events. One migration, one seed.
 
 **Pros**:
+
 - Every slice builds on stable, typed tables; the dashboard and exam mode never wait on a migration.
 - Relationships (cascade ownership, uniques, indexes) are designed once, coherently, instead of accreting.
 
 **Cons**:
+
 - Later feature specs might want shapes this model did not predict; drift must be managed by amending this spec.
 - Slightly more upfront design than Slice 1 strictly needs.
 
@@ -23,9 +25,11 @@ Model all ten features' entities in one spec: modules, lectures, chunks, flashca
 Only what the core study loop needs now (lectures, chunks, flashcards, review logs); semesters, exams, and usage arrive with their slices.
 
 **Pros**:
+
 - Smallest first step; nothing speculative.
 
 **Cons**:
+
 - Four separate migrations across slices, each touching shared tables; every slice carries schema risk.
 - The exam tables and usage events were already fully specified in conversation; deferring them records no new information, only delay.
 
@@ -34,9 +38,11 @@ Only what the core study loop needs now (lectures, chunks, flashcards, review lo
 Store generated study sets (cards, questions) as JSONB documents on the lecture row instead of relational rows.
 
 **Pros**:
+
 - One insert per generated lecture; trivially flexible to prompt changes.
 
 **Cons**:
+
 - SM 2 needs per card mutable state and indexed due dates; JSONB fights both.
 - Per question exam rows and due card queries become application side filtering; the dashboard aggregates get slow and ugly.
 - Spec 0001's chunked pipeline already produces per chunk relational rows; the hybrid would split the model in two styles.
@@ -48,11 +54,13 @@ The decision rests on three forces from Context. First, the scope is already ful
 ## References
 
 **Project sources** (verifiable, in this repo):
+
 - `docs/scope/scope.md` row 3 (Data model: the decision box and Done when this spec executes)
 - `docs/specs/0001-stack-and-architecture/index.md` (pipeline states, quota decision, owed SR algorithm decision, storage ceiling)
 - `AGENTS.md` (folder by feature rule, server only database access, Drizzle only)
 
 **Practices & standards**:
+
 - SM 2 spaced repetition algorithm (SuperMemo; simplified variant with quality 0 to 3), the owed decision from spec 0001
 - Append only event records for metering and quotas (count instead of increment, no lost updates)
 - Cascade delete ownership for user scoped rows (account cleanup as one operation)
