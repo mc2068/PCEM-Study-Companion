@@ -47,16 +47,16 @@ passes build, and deploys to a live URL.
 
 Spec 0001
 
-### 2. Coding standards & tooling
+### 2. Coding standards & tooling · shipped
 
 Capture conventions and install lint, format, and pre commit enforcement from the real
 scaffolded project, so all later code follows the same rules.
 **Done when:** root `AGENTS.md` reflects the real stack, and lint, format and pre
 commit run clean.
 
-- [ ] Capture conventions + tooling choices: `/audit`
-- [ ] Install the tooling: `/develop tooling`
-- [ ] Check it runs clean: `/test`
+- [x] Capture conventions + tooling choices: `/audit` (gap-fill 2026-09-08: check list + sandbox line corrected)
+- [x] Install the tooling: `/develop tooling` (format gate in CI, prettier config fix, hooked commit proven 91c6b38)
+- [x] Check it runs clean: `/test` (lint, format:check, tsc, vitest 2/2 all exit 0)
 
 ### 3. Data model · shipped
 
