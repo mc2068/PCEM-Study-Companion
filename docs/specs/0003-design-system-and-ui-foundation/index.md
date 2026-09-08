@@ -1,7 +1,7 @@
 # 0003. Design system and UI foundation
 
 **Date**: 2026-09-08
-**Status**: Built (agent-verified; engineer manual pass pending — verify.md rows 6-8)
+**Status**: In Progress (build complete; verify.md rows 6 to 8 need the engineer)
 
 ## Summary
 

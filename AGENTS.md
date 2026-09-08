@@ -38,6 +38,7 @@ Do not write code before the prompt is approved, unless the user tells you to sk
 # 3. UI work
 
 You do not design UI. The engineer generates designs with an image model using `docs/design/ui-image-prompts.md` and saves them to `docs/design/references/`. You receive the image plus a prompt. Reproduce them exactly: layout, spacing, typography, color, and states. There is no mobile reference, so make each page responsive down to mobile, adapting the layout sensibly while keeping the desktop exact. Do not restyle or improve beyond the reference. Reuse the components and Tailwind patterns already in the project before you add new ones. The reference image is the source of truth.
+The design system lives in docs/design/design.md (tokens in src/app/globals.css, base components in src/components/ui/, proof page at /design); reuse it before adding anything new.
 
 # 4. Skills to lean on
 
