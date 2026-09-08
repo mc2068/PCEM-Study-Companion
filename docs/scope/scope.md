@@ -100,7 +100,7 @@ a clear retry state and never silence, and the whole path works on the deployed 
   - [x] Pipeline core: QStash chunks, merge, reaper (AC-4, AC-5, AC-6)
   - [x] Lecture and study surfaces (AC-6, AC-7, AC-8, AC-9)
   - [x] Deploy verification (AC-11)
-- [ ] Verify it: `/check verify core study loop`
+- [x] Verify it: `/check verify core study loop`
 - [ ] Test it: `/test core study loop`
 
 Spec [0004](../specs/0004-core-study-loop/index.md)
