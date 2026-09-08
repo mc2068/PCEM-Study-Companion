@@ -19,18 +19,18 @@ that does not fit: if you already know how to build a feature, use `/develop` an
 
 ## At a glance
 
-| #   | Feature                       | Phase      | Status  |
-| --- | ----------------------------- | ---------- | ------- |
-| 1   | Stack & architecture          | Foundation | shipped |
-| 2   | Coding standards & tooling    | Foundation | planned |
-| 3   | Data model                    | Foundation | shipped |
-| 4   | Design system & UI foundation | Foundation | planned |
-| 5   | Core study loop               | Slice 1    | planned |
-| 6   | Spaced repetition review      | Slice 2    | planned |
-| 7   | Grounded concept chat         | Slice 3    | planned |
-| 8   | Module & semester library     | Slice 4    | planned |
-| 9   | Exam mode                     | Slice 5    | planned |
-| 10  | Progress dashboard            | Slice 6    | planned |
+| #   | Feature                       | Phase      | Status      |
+| --- | ----------------------------- | ---------- | ----------- |
+| 1   | Stack & architecture          | Foundation | shipped     |
+| 2   | Coding standards & tooling    | Foundation | planned     |
+| 3   | Data model                    | Foundation | shipped     |
+| 4   | Design system & UI foundation | Foundation | planned     |
+| 5   | Core study loop               | Slice 1    | in-progress |
+| 6   | Spaced repetition review      | Slice 2    | planned     |
+| 7   | Grounded concept chat         | Slice 3    | planned     |
+| 8   | Module & semester library     | Slice 4    | planned     |
+| 9   | Exam mode                     | Slice 5    | planned     |
+| 10  | Progress dashboard            | Slice 6    | planned     |
 
 ## Foundations
 
@@ -84,7 +84,7 @@ Spec 0003
 
 ## Slice 1: Core study loop
 
-### 5. Core study loop · needs a decision
+### 5. Core study loop · in-progress
 
 The walking skeleton, the whole journey thin and real: sign in, upload a lecture PDF,
 read a structured summary that explains the key concepts in simple French, study
@@ -94,7 +94,16 @@ of its key concepts in simple French within minutes, studies flashcards and answ
 quiz questions generated from that same lecture, a failed upload or processing shows
 a clear retry state and never silence, and the whole path works on the deployed URL.
 
-- [ ] Design it (spec): `/architect core study loop`
+- [x] Design it (spec): `/architect core study loop`
+- [ ] Build it: `/develop core study loop`
+  - [ ] Shell + upload path (AC-1, AC-2, AC-3, AC-10, AC-12)
+  - [ ] Pipeline core: QStash chunks, merge, reaper (AC-4, AC-5, AC-6)
+  - [ ] Lecture and study surfaces (AC-6, AC-7, AC-8, AC-9)
+  - [ ] Deploy verification (AC-11)
+- [ ] Verify it: `/check verify core study loop`
+- [ ] Test it: `/test core study loop`
+
+Spec [0004](../specs/0004-core-study-loop/index.md)
 
 ## Slice 2: Spaced repetition review
 
