@@ -94,7 +94,7 @@ Build to these unless the user changes them.
 
 # 8. The data model
 
-Only the `students` table exists today (live in Supabase, Clerk user id as primary key, created by `scripts/db/pipe-proof.mjs`). The full model (semesters, modules, lectures, chunks, flashcards, review logs, quizzes, exams) is decided by the `/architect data model` spec (scope row 3), which will be linked here. Until that spec is Accepted, add no table that a feature's spec does not define.
+The full model is live in Supabase (spec 0002, Accepted, `docs/specs/0002-data-model/`): 11 tables — students, modules, lectures, lecture_chunks, flashcards, review_logs, quiz_questions, exam_attempts, exam_attempt_questions, usage_events, chat_messages — defined in `src/db/schema.ts` (Drizzle, the single source of truth). Schema changes go through that file plus `npm run db:push` (session pooler 5432, see section 9); seed, verify, and DDL-dump utilities live in `scripts/db/`. Add no table that a feature's spec does not define.
 
 # 9. Things that will trip you up
 
