@@ -23,7 +23,7 @@ that does not fit: if you already know how to build a feature, use `/develop` an
 | --- | ----------------------------- | ---------- | ------- |
 | 1   | Stack & architecture          | Foundation | shipped |
 | 2   | Coding standards & tooling    | Foundation | planned |
-| 3   | Data model                    | Foundation | planned |
+| 3   | Data model                    | Foundation | shipped |
 | 4   | Design system & UI foundation | Foundation | planned |
 | 5   | Core study loop               | Slice 1    | planned |
 | 6   | Spaced repetition review      | Slice 2    | planned |
@@ -58,14 +58,17 @@ commit run clean.
 - [ ] Install the tooling: `/develop tooling`
 - [ ] Check it runs clean: `/test`
 
-### 3. Data model · needs a decision
+### 3. Data model · shipped
 
 Core entities every slice builds on: students, semesters, modules, lectures, generated
 summaries, flashcards, quiz questions and attempts, and the review schedule.
 **Done when:** entities and relationships support every later slice (reviews, chat,
 exam mode, dashboard) without a breaking migration.
 
-- [ ] Design it (spec): `/architect data model`
+- [x] Design it (spec): `/architect data model`
+- [x] Build it: migration, seed, verify (`/develop data model`)
+
+Spec 0002
 
 ### 4. Design system & UI foundation · needs a decision
 

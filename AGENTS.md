@@ -104,6 +104,7 @@ You cannot infer these from the code, so keep them in mind.
 - Gemini API keys now ship in the `AQ.` format (the old `AIza` prefix still works too). Both are valid.
 - The database connection must be the pooled one (port 6543) with `prepare: false`. The direct 5432 string breaks serverless hosting.
 - drizzle-kit reads env only through `node --env-file=.env.local`; the `db:*` scripts in package.json already do this.
+- drizzle-kit push must run against the session pooler (5432), not the pooled 6543 string: PgBouncer misaligns its pipelined introspection and it crashes or hangs (the real mechanism behind drizzle-orm#5599). One-off override: `$env:DATABASE_URL = "<url with :5432>"` then `npm run db:push`. The app itself keeps 6543.
 - Next 16 renamed middleware to proxy: use `src/proxy.ts`. The nextjs agent rules block above is re-added by `next dev`.
 - In the agent sandbox on this machine, child process spawning fails (`spawn EPERM`) and npm needs its cache redirected into the workspace. Database and storage work goes through pure socket node scripts (`scripts/db/`, `scripts/storage/`) that run in process.
 - `.env.local` is gitignored. `.env.example` is the canonical committed list.

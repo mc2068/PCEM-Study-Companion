@@ -6,6 +6,10 @@ export default defineConfig({
   schema: "./src/db/schema.ts",
   out: "./drizzle",
   dialect: "postgresql",
+  // Without this, drizzle-kit introspects Supabase's internal schemas
+  // (auth, storage, ...) and crashes on their constraints — see
+  // drizzle-team/drizzle-orm#5599. We only ever manage `public`.
+  schemaFilter: ["public"],
   dbCredentials: {
     // Pooled connection (port 6543) — required for serverless deploys.
     url: process.env.DATABASE_URL!,
