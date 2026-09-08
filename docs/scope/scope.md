@@ -70,14 +70,17 @@ exam mode, dashboard) without a breaking migration.
 
 Spec 0002
 
-### 4. Design system & UI foundation · needs a decision
+### 4. Design system & UI foundation · in-progress
 
 Visual language and base components for a calm, focused, French first interface that
 works on a phone sized screen, since students study on phones too.
 **Done when:** `design.md` covers type, color, spacing and base components, and base
 components handle focus and keyboard.
 
-- [ ] Design it (spec): `/architect design system & UI foundation`
+- [x] Design it (spec): `/architect design system & UI foundation`
+- [x] Build it: tokens, components, /design tile, design.md (`/develop design system & UI foundation`)
+
+Spec 0003
 
 ## Slice 1: Core study loop
 

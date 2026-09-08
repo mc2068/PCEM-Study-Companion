@@ -1,26 +1,199 @@
 @import "tailwindcss";
 
+/* Class based dark mode (spec 0003 AC-1/AC-3): next-themes toggles .dark on <html>. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ==========================================================================
+   Design tokens - spec 0003
+   Light values measured from "0. Design system sheet" in docs/design/UI designs
+   (scripts/design/extract-palette.mjs). Dark values are re-tuned siblings,
+   not measured. Components consume ONLY the semantic names below (AC-9).
+   Contrast pairings are pre-decided and gated by scripts/design/check-contrast.mjs:
+   amber/sage fills pair with dark text; informative amber/sage icons and text
+   use the *-text variants; red button fills use --error-strong for white text;
+   borders are decorative reinforcement and never the sole visual indicator.
+   Disabled pairs are WCAG-exempt and not gated.
+   ========================================================================== */
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  color-scheme: light;
+
+  /* Surfaces */
+  --background: #fdfaf6; /* measured */
+  --surface: #ffffff; /* measured */
+  --surface-muted: #f4f4f4; /* measured */
+
+  /* Text */
+  --text: #323c4b; /* measured */
+  --muted-text: #5c6675; /* derived tint of the slate */
+
+  /* Border */
+  --border: #e6e9ed; /* measured */
+
+  /* Primary indigo */
+  --primary: #444ad4; /* measured */
+  --primary-hover: #334caa; /* measured */
+  --primary-text: #444ad4;
+  --on-primary: #ffffff;
+  --primary-tint: #e9eafc; /* derived */
+
+  /* Accent amber */
+  --accent: #f5a41b; /* measured */
+  --accent-hover: #ffbb33; /* lighter keeps the on-accent pairing AA */
+  --accent-text: #754b00;
+  --on-accent: #323c4b;
+  --accent-tint: #fdf5ea; /* measured */
+
+  /* Success sage */
+  --success: #23b189; /* measured */
+  --success-hover: #2fc39a;
+  --success-text: #106b50;
+  --on-success: #2a3340; /* darker slate: #323c4b on sage is 4.10:1, under AA */
+  --success-tint: #e5f4ec; /* measured */
+
+  /* Error red */
+  --error: #eb4c49; /* measured */
+  --error-strong: #c93835; /* button fill for white text */
+  --error-hover: #b02f2c;
+  --error-text: #b02f2c;
+  --on-error: #ffffff;
+  --error-tint: #fdecea; /* derived */
+
+  /* States */
+  --ring: var(--primary);
+  --disabled-bg: #f4f4f4;
+  --disabled-text: #9aa3ad;
 }
 
+.dark {
+  color-scheme: dark;
+
+  --background: #1b2028;
+  --surface: #242b35;
+  --surface-muted: #2d3540;
+
+  --text: #f2ede4;
+  --muted-text: #a9b1bd;
+
+  --border: #363f4b;
+
+  --primary: #6268dc;
+  --primary-hover: #565cd0;
+  --primary-text: #8f94f0;
+  --on-primary: #ffffff;
+  --primary-tint: #2c2f52;
+
+  --accent: #f5a41b;
+  --accent-hover: #d98f0f;
+  --accent-text: #f5a41b;
+  --on-accent: #1b2028;
+  --accent-tint: #3d3113;
+
+  --success: #2fbf95;
+  --success-hover: #45c9a4;
+  --success-text: #2fbf95;
+  --on-success: #1b2028;
+  --success-tint: #14382c;
+
+  --error: #f0625f;
+  --error-strong: #c93835;
+  --error-hover: #b02f2c;
+  --error-text: #f47a76;
+  --on-error: #ffffff;
+  --error-tint: #43221f;
+
+  --ring: var(--primary);
+  --disabled-bg: #2d3540;
+  --disabled-text: #6b7480;
+}
+
+/* Semantic tokens -> Tailwind utilities (bg-primary, text-muted-text, ...) */
 @theme inline {
   --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --color-surface: var(--surface);
+  --color-surface-muted: var(--surface-muted);
+  --color-text: var(--text);
+  --color-muted-text: var(--muted-text);
+  --color-border: var(--border);
+  --color-ring: var(--ring);
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-text: var(--primary-text);
+  --color-on-primary: var(--on-primary);
+  --color-primary-tint: var(--primary-tint);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-text: var(--accent-text);
+  --color-on-accent: var(--on-accent);
+  --color-accent-tint: var(--accent-tint);
+  --color-success: var(--success);
+  --color-success-hover: var(--success-hover);
+  --color-success-text: var(--success-text);
+  --color-on-success: var(--on-success);
+  --color-success-tint: var(--success-tint);
+  --color-error: var(--error);
+  --color-error-strong: var(--error-strong);
+  --color-error-hover: var(--error-hover);
+  --color-error-text: var(--error-text);
+  --color-on-error: var(--on-error);
+  --color-error-tint: var(--error-tint);
+  --color-disabled-bg: var(--disabled-bg);
+  --color-disabled-text: var(--disabled-text);
+
+  /* Scaffold compat aliases (existing pages may still use them) */
+  --color-foreground: var(--text);
+  --color-muted-foreground: var(--muted-text);
+
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@theme {
+  /* Radius scale: controls 8, cards 16, sheets 24 (rounded-full stays a pill) */
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --radius-2xl: 1.5rem;
+
+  /* Two level warm shadows (base #323c4b) */
+  --shadow-rest: 0 1px 2px rgb(50 60 75 / 0.05), 0 1px 3px rgb(50 60 75 / 0.08);
+  --shadow-lift: 0 2px 4px rgb(50 60 75 / 0.06), 0 4px 16px rgb(50 60 75 / 0.12);
+
+  /* Motion: nothing longer than 200 ms (AC-6) */
+  --animate-indeterminate: progress-indeterminate 1.4s ease-in-out infinite;
+
+  /* Measured family anchors (static; screens may use families, components use semantic names) */
+  --color-indigo-600: #444ad4;
+  --color-amber-500: #f5a41b;
+  --color-emerald-500: #23b189;
+  --color-red-500: #eb4c49;
+
+  @keyframes progress-indeterminate {
+    0% {
+      transform: translateX(-100%);
+    }
+    100% {
+      transform: translateX(350%);
+    }
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer base {
+  body {
+    background: var(--background);
+    color: var(--text);
+    font-family: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  }
+}
+
+/* Reduced motion: collapse every transition and animation (AC-6) */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
