@@ -1,4 +1,4 @@
-import { and, eq, lte, sql } from "drizzle-orm";
+import { and, eq, inArray, lte, sql } from "drizzle-orm";
 import { db } from "@/db";
 import { lectureChunks, lectures, flashcards, quizQuestions } from "@/db/schema";
 import { fetchLectureBytes } from "./storage";
@@ -251,10 +251,17 @@ export async function reapStuckLectures(studentId: string): Promise<void> {
   // Lectures with a failed or stuck chunk → failed (French message at render).
   const brokenLectures = await db.query.lectures.findMany({
     where: and(eq(lectures.studentId, studentId), eq(lectures.processingState, "processing")),
-    with: { chunks: true },
+  });
+  if (brokenLectures.length === 0) return;
+  const theirChunks = await db.query.lectureChunks.findMany({
+    where: inArray(
+      lectureChunks.lectureId,
+      brokenLectures.map((l) => l.id),
+    ),
   });
   for (const l of brokenLectures) {
-    const hasFailedChunk = l.chunks.some((c) => c.status === "failed");
+    const chunks = theirChunks.filter((c) => c.lectureId === l.id);
+    const hasFailedChunk = chunks.some((c) => c.status === "failed");
     const zeroProgressTooLong =
       l.processedChunks === 0 && l.updatedAt.getTime() < now - STUCK_CHUNK_MS;
     if (hasFailedChunk || zeroProgressTooLong) {

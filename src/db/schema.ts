@@ -1,4 +1,4 @@
-import { relations, sql } from "drizzle-orm";
+import { sql } from "drizzle-orm";
 import {
   boolean,
   check,
@@ -279,19 +279,3 @@ export const chatMessages = pgTable(
   },
   (t) => [index("chat_messages_lecture_created_idx").on(t.lectureId, t.createdAt)],
 );
-
-// ── Relations (for db.query relational reads; declared after tables) ──
-
-export const lecturesRelations = relations(lectures, ({ one, many }) => ({
-  module: one(modules, { fields: [lectures.moduleId], references: [modules.id] }),
-  chunks: many(lectureChunks),
-}));
-
-export const modulesRelations = relations(modules, ({ many }) => ({
-  lectures: many(lectures),
-}));
-
-export const studentsRelations = relations(students, ({ many }) => ({
-  modules: many(modules),
-  lectures: many(lectures),
-}));

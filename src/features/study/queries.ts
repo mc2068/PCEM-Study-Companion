@@ -101,10 +101,14 @@ export async function getHomeData(studentId: string, timezone: string) {
 }
 
 export async function getLectureForStudent(lectureId: string, studentId: string) {
-  return db.query.lectures.findFirst({
-    where: and(eq(lectures.id, lectureId), eq(lectures.studentId, studentId)),
-    with: { module: true },
-  });
+  const [row] = await db
+    .select({ lecture: lectures, moduleName: modules.name })
+    .from(lectures)
+    .innerJoin(modules, eq(modules.id, lectures.moduleId))
+    .where(and(eq(lectures.id, lectureId), eq(lectures.studentId, studentId)))
+    .limit(1);
+  if (!row) return null;
+  return { ...row.lecture, module: { name: row.moduleName } };
 }
 
 export async function getFlashcardsForLecture(lectureId: string) {
