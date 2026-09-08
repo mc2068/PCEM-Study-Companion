@@ -16,6 +16,9 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
+      # Next 16 generates route/layout types into .next/types on dev/build;
+      # a fresh checkout lacks them, so tsc fails on globals like LayoutProps.
+      - run: npx next typegen
       - run: npx tsc --noEmit
       - run: npm run lint
       - run: npm test
